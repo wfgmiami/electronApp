@@ -1,0 +1,94 @@
+<html>
+    <head>
+        <meta charset='utf-8'>
+       
+        <link rel="stylesheet" href="../assets/css/data.css"/>
+    </head>
+    <body>
+        <p class='dataTable'>Portfolios</p>
+            <div>Portfolio A
+            <table>
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Price</th>
+                        <th>Shares</th>
+                        <th>Market Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>AAPL</td>
+                        <td>174.22</td>
+                        <td>100</td>
+                        <td>17422</td>
+                    </tr>
+                    <tr>
+                        <td>AMZN</td>
+                        <td>1444.90</td>
+                        <td>10</td>
+                        <td>14449</td>
+                    </tr>
+                </tbody>
+    
+            </table>
+        </div>
+        <br>
+        <div id="draggable" draggable="true">Portfolio B
+            <table>
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Price</th>
+                        <th>Shares</th>
+                        <th>Market Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>FB</td>
+                        <td>163.92</td>
+                        <td>100</td>
+                        <td>16392</td>
+                    </tr>
+                    <tr>
+                        <td>GOOGL</td>
+                        <td>1038.23</td>
+                        <td>10</td>
+                        <td>10382</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br>
+
+        <p>Trade</p>
+        <div class='trade-inputs'>
+            <label class='label'>
+                Portfolio:
+                <input class='input' type='text' id='potfolio' placeholder='Portfolio'>
+            </label>
+            <label class='label'>
+                Symbol:
+                <input class='input' type='text' id='symbol' placeholder='Symbol'>
+            </label>
+            <label class='label'>
+                <span>Shares:</span>
+                <input class='input' id='shares' placeholder='Shares'>
+            </label>
+            <label class='label'>
+                Price:
+                <input class='input' id='price' placeholder='Price'>
+            </label>
+            <div>&nbsp;</div>
+            <div>
+                <button id='btnPost'>Post Trade</button>
+            </div>
+        </div>
+       <br><a id="closeLink">Close Window</a>
+       <script src="data.js"></script>
+       
+    </body>
+
+</html>
+

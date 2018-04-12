@@ -1,0 +1,53 @@
+.row3 {
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+p.dataTable{
+    background: #C3C3C3;
+    margin:0;
+    padding: 20px;
+    text-transform:uppercase;
+    -webkit-app-region:drag;
+}
+
+#closeLink {
+    padding: 20px;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.trade-inputs label, .trade-inputs input {
+    float: none; 
+    display: inline-block;
+    vertical-align: middle;    
+}
+
+table {
+	border-collapse: separate;
+	border-spacing: 0;
+	color: #4a4a4d;
+	font: 14px/1.4 "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+th {
+	border-right: 1px solid #fff;
+}
+
+th,
+td {
+	padding: 5px 5px;
+	vertical-align: middle;
+}
+
+thead {
+	background: #395870;
+	color: #fff;
+	font-size: 14px;
+}
+
+td {
+	width: 10%;
+	border-bottom: 1px solid #cecfd5;
+	border-right: 1px solid #cecfd5;
+}
