@@ -48,10 +48,10 @@ ipc.on('targetPriceVal', function(event, arg){
 })
 
 btnPortfolios.addEventListener('click', function(event){
-    var dataWin = new BrowserWindow({ frame: false, width: 400, height: 650 })
+    var dataWin = new BrowserWindow({ frame: false, width: 700, height: 650 })
     dataWin.on('close', ()=> { dataWin = null })
     dataWin.loadURL(path.join("file://", __dirname, 'data.html'))
    
-    // dataWin.show();
+    dataWin.show();
 
 })

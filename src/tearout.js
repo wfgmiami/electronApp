@@ -1,7 +1,7 @@
 const electron = require('electron');
 const path = require('path');
-const remote = require('electron').remote
-remote.getCurrentWebContents().star
+
+
 var myTable = document.getElementsByClassName('dataTable')[0];
 var hiddenTable;
 var elementToCopy;

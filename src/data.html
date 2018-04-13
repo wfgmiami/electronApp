@@ -5,8 +5,9 @@
         <link rel="stylesheet" href="../assets/css/data.css"/>
     </head>
     <body>
-        <p class='dataTable'>Portfolios</p>
-            <div>Portfolio A
+        <div class='dataTable'>
+        <p class='dataTablePar'>Portfolios</p>
+            <div id="draggable" draggable="true" ondragstart="event.dataTransfer.setData('text/plain',null)">Portfolio A
             <table>
                 <thead>
                     <tr>
@@ -87,7 +88,7 @@
         </div>
        <br><a id="closeLink">Close Window</a>
        <script src="data.js"></script>
-       
+      </div> 
     </body>
 
 </html>
