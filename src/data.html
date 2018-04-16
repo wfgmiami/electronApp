@@ -5,9 +5,10 @@
         <link rel="stylesheet" href="../assets/css/data.css"/>
     </head>
     <body>
+        <div class="dropzone">
         <div class='dataTable'>
         <p class='dataTablePar'>Portfolios</p>
-            <div id="draggable" draggable="true" ondragstart="event.dataTransfer.setData('text/plain',null)">Portfolio A
+            <div id="draggable" draggable="true">Portfolio A
             <table>
                 <thead>
                     <tr>
@@ -33,7 +34,7 @@
                 </tbody>
     
             </table>
-        </div>
+            </div>
         <br>
         <div id="draggable" draggable="true">Portfolio B
             <table>
@@ -89,6 +90,7 @@
        <br><a id="closeLink">Close Window</a>
        <script src="data.js"></script>
       </div> 
+      </div>
     </body>
 
 </html>

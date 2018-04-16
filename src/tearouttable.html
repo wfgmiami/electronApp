@@ -1,9 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="utf-8">
     <title></title>
   </head>
   <body>
-    <iframe sandbox='allow-scripts' src='data.html'></iframe>
+    <p class='dataTablePar'>Portfolios</p>
+    <script>
+      const electron = require('electron');
+      const { ipcRenderer } = electron;
+      const currWin = electron.remote.getCurrentWindow();
+      currWin.webContents.openDevTools();
+    
+      onload = () => {
+        // console.log('in tearout', document.body)
+        ipcRenderer.send('tearoutRequest', '')
+        ipcRenderer.on('tearoutContent', function(event, arg){
+          var dataCSS = document.createElement('link');
+          dataCSS.rel = 'stylesheet';
+          dataCSS.type = 'text/css';
+          dataCSS.href = '../assets/css/data.css';
+                    
+          var str2DOMElement = function(html) {
+              var frame = document.createElement('iframe');
+              frame.style.display = 'none';
+              document.body.appendChild(frame);             
+              frame.contentDocument.open();
+              frame.contentDocument.write(html);
+              frame.contentDocument.close();
+              var el = frame.contentDocument.body.firstChild;
+              document.body.removeChild(frame);
+              return el;
+          }
+          var el = str2DOMElement(arg.outerHTML);
+          document.body.appendChild(dataCSS)
+          document.body.appendChild(el);
+        })
+
+      }
+    
+    </script>
+    <script src='tearout.js'></script>
   </body>
 </html>

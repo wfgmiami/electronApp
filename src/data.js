@@ -1,11 +1,14 @@
 const electron =  require('electron')
 const path = require('path');
+const { ipcRenderer } = electron;
+
 const closeLink = document.getElementById('closeLink');
 var myTable = document.getElementsByClassName('dataTable')[0];
 const dataWin = electron.remote.getCurrentWindow();
 var hiddenTable;
 var elementToCopy;
 var newWindow;
+var currentDropTarget;
 
 dataWin.webContents.openDevTools();
 
@@ -15,34 +18,39 @@ closeLink.addEventListener('click', (event) => {
 })
 
 function identifyDraggingElement(e){
-    console.log('.....dragged', e.target)
     elementToCopy = e.target;
+    currentDropTarget = elementToCopy.parentNode;
+    console.log('parent node', currentDropTarget)
+    var objElement = {}
+    for(var p in currentDropTarget){
+       objElement[p] = currentDropTarget[p]
+    }
+
+    ipcRenderer.send('currentDropTarget', objElement)
 }
 
 function moveToOwnWindow(){
+
+    const mousePoint = electron.screen.getCursorScreenPoint();
+
     hiddenTable = new electron.remote.BrowserWindow({
+         frame: true,
          width: 300, 
-         height: 300
+         height: 300,
+         x: mousePoint.x,
+         y: mousePoint.y
      })
     
      hiddenTable.loadURL(path.join("file://", __dirname, 'tearouttable.html'))
-     tearOut();
-}
+     elementToCopy.parentNode.removeChild(elementToCopy);
 
-function tearOut(){
-    elementToCopy.parentNode.removeChild(elementToCopy);
-    hiddenTable.contentWindow.document.body.appendChild(elementToCopy);
-    hiddenTable.show();
-    // hiddenTable.showAt(mousePosition.left - 150, mousePosition.top)
+     var objElement = {}
+     for(var p in elementToCopy){
+        objElement[p] = elementToCopy[p]
+     }
 
-    // hiddenTable = this;
-    // system.getMousePosition( 
-    //     function(mousePosition){
-    //         elementToCopy.parentNode.removeChild(elementToCopy);
-    //         hiddenTable.contentWindow.document.body.appendChild(elementToCopy);
-    //         hiddenTable.showAt(mousePosition.left - 150, mousePosition.top)
-    //     }
-    // );
+     ipcRenderer.send('tearoutContent', objElement)
+
 }
 
 myTable.addEventListener('dragend', moveToOwnWindow, false);

@@ -5,6 +5,8 @@ const shell = require('electron').shell;
 const ipc = require('electron').ipcMain;
 
 let win;
+let tearoutContent = null;
+let currentDropTarget = null;
 
 function createWindow(){
     win = new BrowserWindow({ width: 800, height: 600 });
@@ -14,7 +16,7 @@ function createWindow(){
         slashes: true
     }))
 
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
     win.on('closed', () => {
         win = null
     })
@@ -51,6 +53,17 @@ app.on('ready', createWindow);
 ipc.on('update-notify-value', function(event, arg){
     win.webContents.send('targetPriceVal', arg)
 })
+
+
+ipc.on('tearoutContent', function(event, arg){
+    tearoutContent = arg;
+})
+
+ipc.on('tearoutRequest', function(event, arg){
+    event.sender.send("tearoutContent", tearoutContent)
+})
+
+
 
 
 

@@ -51,7 +51,6 @@ btnPortfolios.addEventListener('click', function(event){
     var dataWin = new BrowserWindow({ frame: false, width: 700, height: 650 })
     dataWin.on('close', ()=> { dataWin = null })
     dataWin.loadURL(path.join("file://", __dirname, 'data.html'))
-   
     dataWin.show();
-
 })
+

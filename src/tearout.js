@@ -1,42 +1,52 @@
-const electron = require('electron');
-const path = require('path');
 
+const currentWindow = electron.remote.getCurrentWindow();
 
-var myTable = document.getElementsByClassName('dataTable')[0];
-var hiddenTable;
-var elementToCopy;
-var newWindow;
+var dataTable = document.getElementsByClassName('dataTable')[0];
+var _currentDropTarget;
 
-var dataWindow = electron.remote.getCurrentWindow();
-
-function identifyDraggingElement(e){
+function onDragStart(e){
     elementToCopy = e.target;
+    // console.log('drag start', elementToCopy)
 }
 
-function moveToOwnWindow(){
-    var newWindow = new electron.remote.BrowserWindow({
-         width: 300, 
-         height: 300
-     },
-    //  function(){
-
-    //  }
+function onDragEnd(e){
+    // isMouseOutOfWindow(e, onMouseOutsideOfWindow, onMouseInsideOfWindow);
+    e.stopPropagation();
+    e.preventDefault();
+    const mousePoint = electron.screen.getCursorScreenPoint();
+    // console.log('screen: ', mousePoint.x,mousePoint.y, " ...", e.x, e.y, "...", currentWindow.getBounds())
+    // console.log('drag end', e.target, e)
     
-    )
-    newWindow.loadURL(path.join("file://", __dirname, 'tearouttable.html'))
-
 }
 
-function tearOut(){
-    hiddenTable = this;
-    system.getMousePosition( 
-        function(mousePosition){
-            elementToCopy.parentNode.removeChild(elementToCopy);
-            hiddenTable.contentWindow.document.body.appendChild(elementToCopy);
-            hiddenTable.showAt(mousePosition.left - 150, mousePosition.top)
-        }
-    );
+function isMouseOutOfWindow(e, outsideCallback, insideCallback){
+    const winSize = electron.screen.getPrimaryDisplay().size;
+    const height = winSize.height;
+
+    // const mousePoint = electron.screen.getCurrentWindow
 }
 
-myTable.addEventListener('dragend', movedToOwnWindow, false);
-myTable.addEventListener('dragstart', identifyDraggingElement, false);
+function onDragEnter(e){
+    e.preventDefault();
+    var classes = e.target.className.match(/dropzone/g);
+    if (classes && classes.length > 0) {
+        e.target.style.background = "#00ff00";
+        _currentDropTarget = e.target;
+    }
+    console.log('onDragEnter', e.target)
+}
+function onDragOver(e) {
+    e.preventDefault();
+    if ( e.target.className == "dropzone" ) {
+        e.target.style.background = "#454545";
+        _currentDropTarget = e.target;
+    }
+    console.log('onDragOver', e.target)
+}
+
+
+
+document.addEventListener('dragend', onDragEnd, false);
+document.addEventListener('dragstart', onDragStart, false);
+document.addEventListener("dragenter", onDragEnter, false);
+document.addEventListener("dragover", onDragOver, false);
