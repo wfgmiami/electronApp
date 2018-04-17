@@ -6,7 +6,7 @@ const remote = electron.remote;
 const closeBtn = document.getElementById('closeBtn');
 
 var thisWin = electron.remote.getCurrentWindow();
-thisWin.webContents.openDevTools();
+// thisWin.webContents.openDevTools();
 
 closeBtn.addEventListener('click', function(event){
     var window = remote.getCurrentWindow();

@@ -5,15 +5,12 @@
     <title></title>
   </head>
   <body>
-    <p class='dataTablePar'>Portfolios</p>
-    <div class="dragger" draggable='true'>1.draggable</div>
-    <div class="dragger" draggable='true'>2.draggable</div>
-    <div class="dropzone">dropzone</div>
+    <p class='portfolio'>Portfolios</p>
     <script>
       const electron = require('electron');
       const { ipcRenderer } = electron;
       const currWin = electron.remote.getCurrentWindow();
-      currWin.webContents.openDevTools();
+      // currWin.webContents.openDevTools();
     
       onload = () => {
         // console.log('in tearout', document.body)

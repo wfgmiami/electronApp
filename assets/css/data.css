@@ -4,12 +4,19 @@
     grid-template-columns: auto auto;
 }
 
-p.dataTablePar{
+p.portfolio{
     background: #C3C3C3;
     margin:0;
     padding: 20px;
     text-transform:uppercase;
     -webkit-app-region:drag;
+}
+
+p.trade{
+    background: #C3C3C3;
+    margin:0;
+    padding: 20px;
+    text-transform:uppercase;
 }
 
 #closeLink {
@@ -50,17 +57,4 @@ td {
 	width: 10%;
 	border-bottom: 1px solid #cecfd5;
 	border-right: 1px solid #cecfd5;
-}
-
-.dropzone{
-    width:300px;
-    height:200px;
-    background-color: #9e9acf;
-
-    margin:10px;
-}
-
-.dragger{
-    background-color: #6faf44;
-    color: #ffffff;
 }

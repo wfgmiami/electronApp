@@ -5,8 +5,8 @@
         <link rel="stylesheet" href="../assets/css/data.css"/>
     </head>
     <body>
-        <div class="dropzone">
-        <p class='dataTablePar'>Portfolios</p>
+        <div id='drop-zone' class="dropzone">
+        <p class='portfolio'>Portfolios</p>
             <div id="draggable" draggable="true">Portfolio A
             <table>
                 <thead>
@@ -19,16 +19,16 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>AAPL</td>
-                        <td>174.22</td>
-                        <td>100</td>
-                        <td>17422</td>
+                        <td id='stock1'>AAPL</td>
+                        <td id='price1'>174.22</td>
+                        <td id='shares1'>50</td>
+                        <td id='mktVal1'>17422</td>
                     </tr>
                     <tr>
-                        <td>AMZN</td>
-                        <td>1444.90</td>
-                        <td>10</td>
-                        <td>14449</td>
+                        <td id='stock2'>AMZN</td>
+                        <td id='price2'>1444.90</td>
+                        <td id='shares2'>18</td>
+                        <td id='mktVal2'>14449</td>
                     </tr>
                 </tbody>
     
@@ -47,27 +47,28 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>FB</td>
-                        <td>163.92</td>
-                        <td>100</td>
-                        <td>16392</td>
+                        <td id='stock3'>FB</td>
+                        <td id='price3'>163.92</td>
+                        <td id='shares3'>80</td>
+                        <td id='mktVal3'>16392</td>
                     </tr>
                     <tr>
-                        <td>GOOGL</td>
-                        <td>1038.23</td>
-                        <td>10</td>
-                        <td>10382</td>
+                        <td id='stock4'>GOOGL</td>
+                        <td id='price4'>1038.23</td>
+                        <td id='shares4'>12</td>
+                        <td id='mktVal4'>10382</td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <br>
 
-        <p>Trade</p>
+        <p id='tradeSection' class="trade">Trade</p>
+        <div>&nbsp;</div>
         <div class='trade-inputs'>
             <label class='label'>
-                Portfolio:
-                <input class='input' type='text' id='potfolio' placeholder='Portfolio'>
+                Buy/Sell
+                <input id='buySell' placeholder='Buy/Sell'>
             </label>
             <label class='label'>
                 Symbol:
@@ -77,10 +78,10 @@
                 <span>Shares:</span>
                 <input class='input' id='shares' placeholder='Shares'>
             </label>
-            <label class='label'>
+            <!-- <label class='label'>
                 Price:
                 <input class='input' id='price' placeholder='Price'>
-            </label>
+            </label> -->
             <div>&nbsp;</div>
             <div>
                 <button id='btnPost'>Post Trade</button>

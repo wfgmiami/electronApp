@@ -11,6 +11,9 @@ var targetPriceVal
 
 const btnPortfolios = document.getElementById('btnPortfolios');
 
+// const currWin = electron.remote.getCurrentWindow();
+// currWin.webContents.openDevTools();
+
 function getBTC(){
     axios.get('https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC&tsyms=USD')
     .then(res => {

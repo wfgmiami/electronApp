@@ -7,6 +7,7 @@ const ipc = require('electron').ipcMain;
 let win;
 let tearoutContent = null;
 let currentDropTarget = null;
+let eventSender = null;
 
 function createWindow(){
     win = new BrowserWindow({ width: 800, height: 600 });
@@ -63,7 +64,22 @@ ipc.on('tearoutRequest', function(event, arg){
     event.sender.send("tearoutContent", tearoutContent)
 })
 
+ipc.on('dragend', (event, arg) => {
+    // console.log('main.js drag end')
+    currentDropTarget = arg;
+    if(eventSender){
+        // console.log('main.js tearoutContent')
+        eventSender.send("tearoutContent", currentDropTarget);
+        event.sender.send('closeWindow', '');
+        currentDropTarget = null;
+        eventSender = null;
+    }
+})
 
+ipc.on('droprequest', (event, arg) => {
+    eventSender = event.sender;
+})
 
-
-
+ipc.on('update-portfolio', (event, arg) => {
+    console.log('update port: ', arg)
+})
