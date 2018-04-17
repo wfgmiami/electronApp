@@ -3,12 +3,11 @@ const path = require('path');
 const { ipcRenderer } = electron;
 
 const closeLink = document.getElementById('closeLink');
-var myTable = document.getElementsByClassName('dataTable')[0];
+var myTable = document.getElementsByClassName('dropzone')[0];
 const dataWin = electron.remote.getCurrentWindow();
 var hiddenTable;
 var elementToCopy;
 var newWindow;
-var currentDropTarget;
 
 dataWin.webContents.openDevTools();
 
@@ -19,14 +18,6 @@ closeLink.addEventListener('click', (event) => {
 
 function identifyDraggingElement(e){
     elementToCopy = e.target;
-    currentDropTarget = elementToCopy.parentNode;
-    console.log('parent node', currentDropTarget)
-    var objElement = {}
-    for(var p in currentDropTarget){
-       objElement[p] = currentDropTarget[p]
-    }
-
-    ipcRenderer.send('currentDropTarget', objElement)
 }
 
 function moveToOwnWindow(){

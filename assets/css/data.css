@@ -51,3 +51,16 @@ td {
 	border-bottom: 1px solid #cecfd5;
 	border-right: 1px solid #cecfd5;
 }
+
+.dropzone{
+    width:300px;
+    height:200px;
+    background-color: #9e9acf;
+
+    margin:10px;
+}
+
+.dragger{
+    background-color: #6faf44;
+    color: #ffffff;
+}
