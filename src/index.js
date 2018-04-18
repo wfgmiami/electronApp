@@ -12,7 +12,9 @@ var targetPriceVal
 const btnPortfolios = document.getElementById('btnPortfolios');
 
 const currWin = electron.remote.getCurrentWindow();
-currWin.webContents.openDevTools();
+// currWin.webContents.openDevTools();
+
+let dataWin;
 
 function getBTC(){
     axios.get('https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC&tsyms=USD')
@@ -52,14 +54,14 @@ ipc.on('targetPriceVal', function(event, arg){
 })
 
 btnPortfolios.addEventListener('click', function(event){
-    var dataWin = new BrowserWindow({ frame: false, width: 700, height: 650 })
+    dataWin = new BrowserWindow({ frame: false, width: 700, height: 650 })
     dataWin.on('close', ()=> { dataWin = null })
     dataWin.loadURL(path.join("file://", __dirname, 'data.html'))
     dataWin.show();
 })
 
-
 ipc.on('tearoutPortfolio', function(event, arg){
-    console.log('tearoutPortfolio', arg)
-    
+    console.log('tearoutPortfolio index.js', arg)
+    dataWin.webContents.send('tearoutPortfolio', arg)
 })
+

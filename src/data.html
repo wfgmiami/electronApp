@@ -7,7 +7,7 @@
     <body>
         <div id='drop-zone' class="dropzone">
         <p class='portfolio'>Portfolios</p>
-            <div id="draggable" draggable="true">Portfolio A
+            <div id="draggable" draggable="true" data-port="A">Portfolio A
             <table>
                 <thead>
                     <tr>
@@ -35,7 +35,7 @@
             </table>
             </div>
         <br>
-        <div id="draggable" draggable="true">Portfolio B
+        <div id="draggable" draggable="true" data-port="B">Portfolio B
             <table>
                 <thead>
                     <tr>
@@ -66,6 +66,10 @@
         <p id='tradeSection' class="trade">Trade</p>
         <div>&nbsp;</div>
         <div class='trade-inputs'>
+            <label class='label'>
+                Portfolio
+                <input id='portfolio' placeholder='Portfolio'>
+            </label>
             <label class='label'>
                 Buy/Sell
                 <input id='buySell' placeholder='Buy/Sell'>

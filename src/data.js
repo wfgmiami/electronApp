@@ -14,42 +14,58 @@ const stock4 = document.getElementById('stock4');
 const inputBuySell = document.getElementById('buySell');
 const inputSymbol = document.getElementById('symbol');
 const inputShares = document.getElementById('shares');
-// let inputPrice = document.getElementById('price');
+const inputPortfolio = document.getElementById('portfolio');
 
 let symbol = null;
 let shares = 0;
 let buySell = null;
+let port = null;
+let offset = 0;
 let updateObj = {};
 var hiddenTable;
 var elementToCopy;
-const portfolio = ['AAPL', 'AMZN', 'FB', 'GOOGL'];
+// const portfolio = ['AAPL', 'AMZN', 'FB', 'GOOGL'];
+let portfolio = [];
 
-dataWin.webContents.openDevTools();
+// dataWin.webContents.openDevTools();
 
 btn.addEventListener('click', (e) => {
     symbol = inputSymbol.value.toUpperCase();
     shares = inputShares.value;
     buySell = inputBuySell.value.toUpperCase();
-   
+    port = inputPortfolio.value.toUpperCase();
+
     updateObj = {
         buySell: buySell,
         symbol: symbol,
         shares: shares,
+        port: port
     }
     ipcRenderer.send('update-portfolio', updateObj)
-  
 });
 
 ipcRenderer.on('separateWindow', (event, arg) => {
-    console.log('separateWindow',arg )
-    if( !arg ){
+    console.log('separateWindow',arg,port )
+    if(port === 'A'){
+        portfolio = ['AAPL', 'AMZN']
+        offset = 0;
+    }else if(port === 'B'){
+        portfolio = ['FB', 'GOOGL']
+        offset = 2;
+    }
+    if(port === arg){
+        ipcRenderer.send('switch-window', '')
+    }else{
+        console.log('separateWindow',arg,port,portfolio )
+
         portfolio.forEach( (ticker,i) => {
             i++;
-            let shares = document.getElementById(`shares${i}`);
-            let mktVal = document.getElementById(`mktVal${i}`);
-            let price = document.getElementById(`price${i}`);
+            let shares = document.getElementById(`shares${i+offset}`);
+            let mktVal = document.getElementById(`mktVal${i+offset}`);
+            let price = document.getElementById(`price${i+offset}`);
             let newShares = 0;
-         
+            let mv = 0;
+    
             if(buySell === 'BUY' && symbol === ticker){
                 newShares = Number(shares.innerHTML) + Number(updateObj.shares);
                 shares.innerHTML = newShares;
@@ -59,10 +75,11 @@ ipcRenderer.on('separateWindow', (event, arg) => {
             }else if( buySell === 'SELL' && symbol === ticker){
                 newShares = Number(shares.innerHTML) - Number(updateObj.shares);
                 shares.innerHTML = newShares;
+                mv = newShares * Number(price.innerHTML);
+                mktVal.innerHTML = mv.toLocaleString();
             }
         })
     }
-    
 })
 
 
@@ -86,7 +103,7 @@ function getQuote(){
 }
 
 getQuote();
-// setInterval(getQuote(),5000);
+setInterval(getQuote(),5000);
 
 closeLink.addEventListener('click', (event) => {
     let win = electron.remote.getCurrentWindow();
@@ -163,6 +180,11 @@ function moveToOwnWindow(){
         parentNode.insertBefore(el, endElement);
         
     });
+
+    ipcRenderer.on('tearoutPortfolio', (event, arg) => {
+        // console.log('tearoutPortfolio data.js', arg)
+        if(hiddenTable) hiddenTable.webContents.send('tearoutPortfolio', arg)
+    })
 
 myTable.addEventListener('dragend', moveToOwnWindow, false);
 myTable.addEventListener('dragstart', identifyDraggingElement, false);

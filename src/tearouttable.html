@@ -10,11 +10,13 @@
       const electron = require('electron');
       const { ipcRenderer } = electron;
       const currWin = electron.remote.getCurrentWindow();
-      currWin.webContents.openDevTools();
+      // currWin.webContents.openDevTools();
     
       onload = () => {
-        // console.log('in tearout', document.body)
-        ipcRenderer.send('tearoutRequest', '')
+        // console.log('in tearout', electron.remote.getCurrentWindow().webContents.getId())
+        // console.log('in tearout', electron.remote.getCurrentWindow().id);
+        ipcRenderer.send('tearoutRequest', electron.remote.getCurrentWindow().id);
+
         ipcRenderer.on('tearoutContent', function(event, arg){
           var dataCSS = document.createElement('link');
           dataCSS.rel = 'stylesheet';
@@ -37,12 +39,48 @@
           document.body.appendChild(el);
         })
 
-        ipcRenderer.on('tearoutPortfolio', function(event, arg){
-          console.log('tearoutPortfolio', arg)
-        })
-
       }
-    
+
+      ipcRenderer.on('tearoutPortfolio', function(event, arg){
+           console.log('success: ', arg)
+          let portfolio = [];
+          let buySell = arg.buySell;
+          let symbol = arg.symbol;
+          let offset = 0;
+
+          if(arg.port === 'A'){
+            portfolio = ['AAPL', 'AMZN']
+          }else if(arg.port === 'B'){
+            portfolio = ['FB', 'GOOGL']
+            offset = 2;
+          }
+
+          portfolio.forEach( (ticker,i) => {
+           
+            i++;
+            let shares = document.getElementById(`shares${i+offset}`);
+            let mktVal = document.getElementById(`mktVal${i+offset}`);
+            let price = document.getElementById(`price${i+offset}`);
+            let newShares = 0;
+            let mv = 0;
+
+            if(buySell === 'BUY' && symbol === ticker){
+                console.log('..............',shares)
+                newShares = Number(shares.innerHTML) + Number(arg.shares);
+                shares.innerHTML = newShares;
+                mv = newShares * Number(price.innerHTML);
+                mktVal.innerHTML = mv.toLocaleString();
+                
+            }else if( buySell === 'SELL' && symbol === ticker){
+                newShares = Number(shares.innerHTML) - Number(arg.shares);
+                shares.innerHTML = newShares;
+                mv = newShares * Number(price.innerHTML);
+                mktVal.innerHTML = mv.toLocaleString();
+            }
+          })
+
+      })
+
     </script>
     <script src='tearout.js'></script>
   </body>
