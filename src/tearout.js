@@ -30,7 +30,7 @@ function onDragEnd(e){
 }
 
 ipcRenderer.on('closeWindow', (event, arg) => {
-    console.log('close window.........')
+    // console.log('close window.........')
     currentDragger.parentNode.removeChild(currentDragger);
     currentWindow.close();
 });

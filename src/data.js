@@ -11,11 +11,15 @@ const stock1 = document.getElementById('stock1');
 const stock2 = document.getElementById('stock2');
 const stock3 = document.getElementById('stock3');
 const stock4 = document.getElementById('stock4');
-let buySell = document.getElementById('buySell');
-let inputSymbol = document.getElementById('symbol');
-let inputShares = document.getElementById('shares');
+const inputBuySell = document.getElementById('buySell');
+const inputSymbol = document.getElementById('symbol');
+const inputShares = document.getElementById('shares');
 // let inputPrice = document.getElementById('price');
 
+let symbol = null;
+let shares = 0;
+let buySell = null;
+let updateObj = {};
 var hiddenTable;
 var elementToCopy;
 const portfolio = ['AAPL', 'AMZN', 'FB', 'GOOGL'];
@@ -23,35 +27,44 @@ const portfolio = ['AAPL', 'AMZN', 'FB', 'GOOGL'];
 dataWin.webContents.openDevTools();
 
 btn.addEventListener('click', (e) => {
- 
-    inputSymbol = inputSymbol.value.toUpperCase();
-    inputShares = inputShares.value;
-    buySell = buySell.value;
-
-    let updateObj = {
-        buySell: buySell,
-        symbol: inputSymbol,
-        shares: inputShares,
-    }
+    symbol = inputSymbol.value.toUpperCase();
+    shares = inputShares.value;
+    buySell = inputBuySell.value.toUpperCase();
    
-    portfolio.forEach( (symbol,i) => {
-        
-        let shares = document.getElementById(`shares${i}`);
-        let newShares = 0;
-
-        if(buySell.toUpperCase() === 'BUY' && updateObj.symbol === symbol){
-            newShares = shares.innerHTML + buySell;
-            shares.innerHTML = newShares;
-        }else if( buySell.toUpperCase() === 'SELL' && updateObj.symbol === symbol){
-            newShares = shares.innnerHTML + buySell;
-            shares.innerHTML = newShares;
-        }
-        
-    })
-    
+    updateObj = {
+        buySell: buySell,
+        symbol: symbol,
+        shares: shares,
+    }
     ipcRenderer.send('update-portfolio', updateObj)
-    // console.log('button clicked', inputPort, inputShares)
+  
 });
+
+ipcRenderer.on('separateWindow', (event, arg) => {
+    console.log('separateWindow',arg )
+    if( !arg ){
+        portfolio.forEach( (ticker,i) => {
+            i++;
+            let shares = document.getElementById(`shares${i}`);
+            let mktVal = document.getElementById(`mktVal${i}`);
+            let price = document.getElementById(`price${i}`);
+            let newShares = 0;
+         
+            if(buySell === 'BUY' && symbol === ticker){
+                newShares = Number(shares.innerHTML) + Number(updateObj.shares);
+                shares.innerHTML = newShares;
+                mv = newShares * Number(price.innerHTML);
+                mktVal.innerHTML = mv.toLocaleString();
+                
+            }else if( buySell === 'SELL' && symbol === ticker){
+                newShares = Number(shares.innerHTML) - Number(updateObj.shares);
+                shares.innerHTML = newShares;
+            }
+        })
+    }
+    
+})
+
 
 function getQuote(){
     portfolio.forEach( (symbol,i) => {

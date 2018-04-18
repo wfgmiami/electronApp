@@ -10,7 +10,7 @@
       const electron = require('electron');
       const { ipcRenderer } = electron;
       const currWin = electron.remote.getCurrentWindow();
-      // currWin.webContents.openDevTools();
+      currWin.webContents.openDevTools();
     
       onload = () => {
         // console.log('in tearout', document.body)
@@ -35,6 +35,10 @@
           var el = str2DOMElement(arg.outerHTML);
           document.body.appendChild(dataCSS)
           document.body.appendChild(el);
+        })
+
+        ipcRenderer.on('tearoutPortfolio', function(event, arg){
+          console.log('tearoutPortfolio', arg)
         })
 
       }

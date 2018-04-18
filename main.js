@@ -8,6 +8,8 @@ let win;
 let tearoutContent = null;
 let currentDropTarget = null;
 let eventSender = null;
+let separateWindow = false;
+let portfolioState = {};
 
 function createWindow(){
     win = new BrowserWindow({ width: 800, height: 600 });
@@ -62,6 +64,7 @@ ipc.on('tearoutContent', function(event, arg){
 
 ipc.on('tearoutRequest', function(event, arg){
     event.sender.send("tearoutContent", tearoutContent)
+    separateWindow = true;
 })
 
 ipc.on('dragend', (event, arg) => {
@@ -73,6 +76,8 @@ ipc.on('dragend', (event, arg) => {
         event.sender.send('closeWindow', '');
         currentDropTarget = null;
         eventSender = null;
+        //only one window, what if more than one
+        separateWindow = false;
     }
 })
 
@@ -82,4 +87,11 @@ ipc.on('droprequest', (event, arg) => {
 
 ipc.on('update-portfolio', (event, arg) => {
     console.log('update port: ', arg)
+    portfolioState = arg;
+    if(!separateWindow){
+        event.sender.send('separateWindow', separateWindow)
+    }else{
+        win.webContents.send('tearoutPortfolio', portfolioState);
+    }
+    
 })
