@@ -63,29 +63,34 @@ ipc.on('update-notify-value', function(event, arg){
 ipc.on('tearoutContent', function(event, arg){
     tearoutContent = arg;
     tearOutPort = tearoutContent.textContent.substring(10,11);
-    console.log('tearoutContent', tearoutContent, tearOutPort)
+    console.log('time1:', new Date().getTime())
 })
 
 ipc.on('tearoutRequest', function(event, arg){
-    event.sender.send("tearoutContent", tearoutContent)
-    tearoutWinId = arg;
-    separateWindow++;
+    // console.log('compare...........', tearoutWinId, arg)
+    setTimeout( function(){
+        event.sender.send("tearoutContent", tearoutContent)
+        tearoutWinId = arg;
+        separateWindow++;
+        console.log('time2:', new Date().getTime())
+    },1000)
+
 })
+
 
 ipc.on('dragend', (event, arg) => {
     // console.log('main.js drag end')
     currentDropTarget = arg;
     if(eventSender){
         // console.log('main.js currentDropTarget',currentDropTarget.textContent.substring(10,11))
-     
         eventSender.send("tearoutContent", currentDropTarget);
-
         event.sender.send('closeWindow', '');
         currentDropTarget = null;
         eventSender = null;
         separateWindow--;
     }
 })
+
 
 ipc.on('droprequest', (event, arg) => {
     eventSender = event.sender;
@@ -95,7 +100,7 @@ ipc.on('update-portfolio', (event, arg) => {
     console.log('update port, tearOutPort, separateWindow: ', tearOutPort, separateWindow)
     portfolioState = arg;
     if( separateWindow === 0 ) tearOutPort = null;
-    
+
     if(separateWindow === 0 || separateWindow === 1){
         event.sender.send('separateWindow', tearOutPort);
     }else{

@@ -27,7 +27,7 @@ var elementToCopy;
 // const portfolio = ['AAPL', 'AMZN', 'FB', 'GOOGL'];
 let portfolio = [];
 
-// dataWin.webContents.openDevTools();
+dataWin.webContents.openDevTools();
 
 btn.addEventListener('click', (e) => {
     symbol = inputSymbol.value.toUpperCase();
