@@ -12,7 +12,7 @@ var targetPriceVal
 const btnPortfolios = document.getElementById('btnPortfolios');
 
 const currWin = electron.remote.getCurrentWindow();
-currWin.webContents.openDevTools();
+// currWin.webContents.openDevTools();
 
 let dataWin;
 
